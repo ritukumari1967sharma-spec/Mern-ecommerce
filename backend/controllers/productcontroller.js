@@ -1,18 +1,15 @@
 import product from "../models/product.js";
 // ADD OR CREATE A PRODUCT//
 
- 
-import Product from "../models/product.js";
-
 export const createProduct = async (req, res) => {
   try {
     console.log("Received data:", req.body);
 
-    const product = await Product.create(req.body);
+    const newProduct = await product.create(req.body);
 
     res.status(201).json({
       message: "Product created successfully",
-      product,
+      newProduct,
     });
   } catch (error) {
     console.error("PRODUCT ERROR:", error.message);
@@ -29,7 +26,17 @@ export const createProduct = async (req, res) => {
 // GET ALL  PRODUCTS//
 export const getProduct = async (req,res)=>{
     try{
-            const products = await product.find().sort({createdAt:-1})
+
+            const{search,category} = req.query;
+
+            let filter = {};
+            if(search){
+              filter.title = {$regex : search,  $options : 'i'};
+            }
+            if(category){
+              filter.category = category;
+            }
+            const products = await product.find(filter).sort({createdAt:-1})
             res.json(products);
     }catch(error){
         res.status(500).json({message: "server error",error});
