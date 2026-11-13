@@ -1,8 +1,10 @@
 import { useState } from "react";
 import api from "../api/axios.js";
 import {useNavigate}  from "react-router-dom";
+ 
 
 function Login (){
+   const navigate = useNavigate(); 
   const [form,setForm]=useState({
     email:"",
     password:""
@@ -22,11 +24,14 @@ function Login (){
       e.preventDefault();
       try{
          const response = await api.post("/auth/login", form);
-         console.log(response,"data");
+          console.log(JSON.stringify(response.data.user, null, 2));
 
        setSuccess(true); // Makes the message blue/green style
 
          localStorage.setItem("token",response.data.token);
+         localStorage.setItem("userId",response.data.user.id);
+
+
          setMsg("login successfully");
          
          setTimeout(()=>{navigate("/"); },1000);

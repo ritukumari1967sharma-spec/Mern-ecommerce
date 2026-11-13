@@ -39,10 +39,10 @@ export const Login = async (req, res) => {
     });
     res.json({message:"login successfully" ,token,
         user:{
-            id:User.id,
-            name: User.nsmae,
-            password:User.password
-        }
+            id:user.id,
+            name: user.name,
+             email: user.email,
+        },
     })
   } catch (error) {
     res.status(500).json({ message: "Error occur", error });

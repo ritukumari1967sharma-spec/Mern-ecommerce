@@ -4,6 +4,7 @@ import connectDB from'./config/db.js';
 import express from 'express';
 import AuthRoutes from "./routes/AuthRoutes.js";
 import productsRoutes from "./routes/productsRoutes.js";
+import cartRoutes from "./routes/cartRoutes.js"
 
 dotenv.config();
 
@@ -12,6 +13,8 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth",AuthRoutes);
 app.use("/api/products",productsRoutes);
+app.use("/api/cart",cartRoutes);
+
 
  app.get('/',(req,res)=>{
     res.send("API is running...");
